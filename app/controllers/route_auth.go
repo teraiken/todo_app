@@ -44,12 +44,12 @@ func authenticate(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 
-		coolie := http.Cookie{
+		cookie := http.Cookie{
 			Name:     "_cookie",
 			Value:    session.UUID,
 			HttpOnly: true,
 		}
-		http.SetCookie(w, &coolie)
+		http.SetCookie(w, &cookie)
 
 		http.Redirect(w, r, "/", 302)
 	} else {
