@@ -7,7 +7,7 @@ import (
 
 type Todo struct {
 	ID        int
-	Context   string
+	Content   string
 	UserID    int
 	CreatedAt time.Time
 }
@@ -32,7 +32,7 @@ func GetTodo(id int) (todo Todo, err error) {
 
 	err = Db.QueryRow(cmd, id).Scan(
 		&todo.ID,
-		&todo.Context,
+		&todo.Content,
 		&todo.UserID,
 		&todo.CreatedAt)
 
@@ -48,7 +48,7 @@ func GetTodos() (todos []Todo, err error) {
 	for rows.Next() {
 		var todo Todo
 		err = rows.Scan(&todo.ID,
-			&todo.Context,
+			&todo.Content,
 			&todo.UserID,
 			&todo.CreatedAt)
 		if err != nil {
@@ -73,7 +73,7 @@ func (u *User) GetTodosByUser() (todos []Todo, err error) {
 		var todo Todo
 		err = rows.Scan(
 			&todo.ID,
-			&todo.Context,
+			&todo.Content,
 			&todo.UserID,
 			&todo.CreatedAt)
 
@@ -90,7 +90,7 @@ func (u *User) GetTodosByUser() (todos []Todo, err error) {
 func (t *Todo) UpdateTodo() error {
 	cmd := `update todos set content = ?, user_id = ?
 	where id = ?`
-	_, err = Db.Exec(cmd, t.Context, t.UserID, t.ID)
+	_, err = Db.Exec(cmd, t.Content, t.UserID, t.ID)
 	if err != nil {
 		log.Fatalln(err)
 	}
